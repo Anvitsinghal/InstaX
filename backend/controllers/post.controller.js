@@ -104,7 +104,7 @@ export const likePost = async (req, res) => {
 
         return res.status(200).json({message:'Post liked', success:true});
     } catch (error) {
-
+          console.log(error);
     }
 }
 export const dislikePost = async (req, res) => {
@@ -125,7 +125,7 @@ export const dislikePost = async (req, res) => {
 
         return res.status(200).json({message:'Post disliked', success:true});
     } catch (error) {
-
+ console.log(error);
     }
 }
 export const addComment = async (req,res) =>{

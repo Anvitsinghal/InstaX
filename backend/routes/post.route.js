@@ -1,6 +1,6 @@
 import express from "express";
 import { isAuthenticated } from "../middleware/isAuthenticated.js";
-import { addComment, bookmarkPost, deletePost, dislikePost, getAllPost, getCommentsOfPost, getUserPost, likePost } from "../controllers/post.controller.js";
+import { addComment, addNewPost, bookmarkPost, deletePost, dislikePost, getAllPost, getCommentsOfPost, getUserPost, likePost } from "../controllers/post.controller.js";
 import upload from "../middleware/multer.js"
 
 const router = express.Router();
