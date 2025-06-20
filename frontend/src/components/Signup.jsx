@@ -42,7 +42,7 @@ const signup = () => {
                 toast.message("Account already exists");
             }
          } catch (error) {
-            toast.message("Account already exists");
+            toast.message("Enter all details");
             console.log(error);
          }
          finally{
