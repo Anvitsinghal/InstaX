@@ -1,11 +1,17 @@
 import { Heart, Home, LogOut, MessageCircle, PlusSquare, Search, TrendingUp } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { toast } from 'sonner'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import store from '@/redux/store'
+import { setAuthUser } from '@/redux/Authslice'
+import CreatePost from './CreatePost'
 
 const LeftSidebar = () => {
+  const {user}=useSelector(store=>store.auth);
+  const dispatch=useDispatch();
     const navigate=useNavigate();
       const sidebarItems = [
         { icon: <Home />, text: "Home" },
@@ -29,11 +35,17 @@ const LeftSidebar = () => {
         if (textType === 'Logout') {
             logoutHandler();
         }
+        else if(textType==='Create'){
+          setopen(true);
+        }
     }
+    const [open,setopen]=useState(false);
+  
     const logoutHandler = async ()=>{
         try {
             const res=await axios.get("http://localhost:8000/api/v1/user/logout",{withCredentials:true});
             if(res.data.success){
+              dispatch(setAuthUser(null));
                 navigate("/login");
                 toast.success(res.data.message);
             } 
@@ -62,7 +74,7 @@ const LeftSidebar = () => {
         ))}
       </div>
     </div>
-
+<CreatePost open={open} setopen={setopen}/>
     {/* Optional bottom section (e.g., profile/settings/logout) */}
     <div className="text-sm text-gray-400 pl-2">© 2025 MyApp</div>
   </div>

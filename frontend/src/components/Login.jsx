@@ -6,7 +6,10 @@ import { toast } from 'sonner'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
+import { useDispatch } from 'react-redux'
+import { setAuthUser } from '@/redux/Authslice'
 const Login = () => {
+  const dispatch =useDispatch();
    const navigate=useNavigate();
     const [input,setInput]=useState({
         
@@ -35,6 +38,7 @@ const Login = () => {
                   password:""
             })
             if(res.data.success){
+             dispatch(setAuthUser(res.data.user));
               navigate("/");
                 toast.success(res.data.message);
             }

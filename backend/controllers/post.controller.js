@@ -71,13 +71,13 @@ export const getUserPost = async (req, res) => {
         const authorId = req.id;
         const posts = await Post.find({ author: authorId }).sort({ createdAt: -1 }).populate({
             path: 'author',
-            select: 'username, profilePicture'
+            select: 'username profilePicture'
         }).populate({
             path: 'comments',
             sort: { createdAt: -1 },
             populate: {
                 path: 'author',
-                select: 'username, profilePicture'
+                select: 'username profilePicture'
             }
         });
         return res.status(200).json({
