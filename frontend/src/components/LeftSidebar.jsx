@@ -24,7 +24,7 @@ const LeftSidebar = () => {
         {
             icon: (
                 <Avatar className='w-6 h-6'>
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src={user?.profilePicture} />
                     <AvatarFallback>CN</AvatarFallback>
                        </Avatar>
             ),
@@ -38,6 +38,15 @@ const LeftSidebar = () => {
         }
         else if(textType==='Create'){
           setopen(true);
+        }
+        else if(textType=='Profile'){
+          navigate(`/profile/${user?._id}`);
+        }
+         else if(textType=='Home'){
+          navigate(`/`);
+        }
+        else if(textType=='Messages'){
+          navigate("/chat");
         }
     }
     const [open,setopen]=useState(false);

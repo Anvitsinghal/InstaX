@@ -16,7 +16,7 @@ const Post = ({ post }) => {
   
   const { user } = useSelector((store) => store.auth);
   const [postlike, setpostlike] = useState(post.likes.length);
-  const [like, setlike] = useState(post.likes.includes(user._id) || false);
+  const [like, setlike] = useState(post.likes.includes(user?._id) || false);
   const dispatch = useDispatch();
   const { posts } = useSelector((store) => store.post);
  
@@ -115,7 +115,7 @@ const Post = ({ post }) => {
           </Avatar>
           <div className="flex items-center gap-3">
           <h1>{post.author?.username}</h1>
-          {user._id==post.author._id && <Badge variant={"Verified"}>Author</Badge>}
+          {user?._id==post?.author?._id && <Badge variant={"Verified"}>Author</Badge>}
           </div>
         </div>
         <Dialog>

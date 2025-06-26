@@ -143,7 +143,7 @@ export const logout = async (_, res) => {
 export const getProfile = async (req, res) => {
     try {
         const userId = req.params.id;
-        let user = await User.findById(userId);
+        let user = await User.findById(userId).populate({path:'posts',createdAt:-1}).populate('bookmarks');
         return res.status(200).json({
             user,
             success: true
@@ -248,3 +248,15 @@ export const followOrUnfollow = async (req, res) => {
         console.log(error);
     }
 }
+
+export const getCurrentUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+    res.status(200).json({ success: true, user });
+  } catch (err) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
