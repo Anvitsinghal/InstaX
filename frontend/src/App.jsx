@@ -12,9 +12,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setonlineusers } from './redux/chatslice';
 import axios from 'axios';
 import { setAuthUser } from './redux/Authslice';
+import { setsocket } from './redux/socketslice';
 
 const App = () => {
   const dispatch = useDispatch();
+  
   const { user } = useSelector((store) => store.auth);
   useEffect(() => {
     const getUser = async () => {
@@ -24,7 +26,7 @@ const App = () => {
         });
   
         if (res.data.success) {
-          dispatch(setAuthUser(res.data.user)); // ✅ Use res.data.user
+          dispatch(setAuthUser(res.data.user));
         } else {
           dispatch(setAuthUser(null));
         }
@@ -40,13 +42,14 @@ const App = () => {
     let socket;
 
     if (user) {
+      
       socket = io('http://localhost:8000', {
         query: {
           userId: user?._id,
         },
         transports: ['websocket'],
       });
-
+dispatch(setsocket(socket)); 
       socket.on('getOnlineUsers', (onlineusers) => {
         dispatch(setonlineusers(onlineusers));
       });
@@ -54,7 +57,7 @@ const App = () => {
 
     return () => {
       if (socket) {
-        socket.disconnect(); // properly close connection
+        socket.disconnect();
       }
     };
   }, [user, dispatch]);

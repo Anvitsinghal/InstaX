@@ -13,7 +13,7 @@ const io=new Server(server,{
 })
 
 const userSocketmap={};
-
+export const getreceiversocketid=(receiverId)=>userSocketmap[receiverId];
 io.on('connection',(socket)=>{
     const userId=socket.handshake.query.userId;
     if(userId){

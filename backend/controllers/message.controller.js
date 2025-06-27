@@ -1,12 +1,13 @@
 import { Conversation } from "../model/conversation.model.js";
 import { Message } from "../model/message.model.js";
+import { getreceiversocketid, io } from "../Socket/socket.js";
 
 // for chatting
 export const sendMessage = async (req,res) => {
     try {
         const senderId = req.id;
         const receiverId = req.params.id;
-        const {textMessage:message} = req.body;
+        const {textmessage:message} = req.body;
       
         let conversation = await Conversation.findOne({
             participants:{$all:[senderId, receiverId]}
@@ -27,7 +28,10 @@ export const sendMessage = async (req,res) => {
         await Promise.all([conversation.save(),newMessage.save()])
 
         // implement socket io for real time data transfer
-       
+       const receiversocketid=getreceiversocketid(receiverId);
+       if(receiversocketid){
+        io.to(receiversocketid).emit('newMessage',newMessage);
+       }
 
         return res.status(201).json({
             success:true,
