@@ -11,7 +11,7 @@ dotenv.config({});
 
 //cors is cross org. resource sharing which allow frontend to access backend api as frontend origin port=5173 and backend is running on 8000
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://instax-frontend.onrender.com',
   credentials: true
 }));
 
