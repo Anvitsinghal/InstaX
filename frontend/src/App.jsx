@@ -16,7 +16,7 @@ import { setsocket } from "./redux/socketslice";
 import { Toaster } from "sonner";
 import Search from "./components/Search";
 import Explore from "./components/Explore";
-import ProtectedRoutes from "./components/protectedroutes";
+import ProtectedRoutes from "./components/Protectedroutes";
 import { addNotification } from './redux/notificationslice';
 import { toast } from 'sonner';
 import Notification from "./components/Notification";
