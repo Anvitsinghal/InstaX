@@ -63,6 +63,9 @@ const LeftSidebar = () => {
     else if(textType==="Explore"){
       navigate("/explore");
     }
+    else if(textType==="Notifications"){
+      navigate("/notification");
+    }
     
 
     setIsMobileMenuOpen(false); // close on mobile after navigation

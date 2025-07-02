@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import getDataUri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 import { Post } from "../model/post.model.js";
+import { getreceiversocketid, io } from "../Socket/socket.js";
 
 // REGISTER
 export const register = async (req, res) => {
@@ -242,6 +243,16 @@ export const followOrUnfollow = async (req, res) => {
                 User.updateOne({ _id: followKrneWala }, { $push: { following: jiskoFollowKrunga } }),
                 User.updateOne({ _id: jiskoFollowKrunga }, { $push: { followers: followKrneWala } }),
             ])
+            // Emit notification to the followed user
+            const receiversocketid = getreceiversocketid(jiskoFollowKrunga);
+            if (receiversocketid) {
+                const notification = {
+                    type: 'follow',
+                    from: followKrneWala,
+                    message: `${user.username} started following you!`
+                };
+                io.to(receiversocketid).emit('notification', notification);
+            }
             return res.status(200).json({ message: 'followed successfully', success: true });
         }
     } catch (error) {

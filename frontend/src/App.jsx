@@ -17,11 +17,16 @@ import { Toaster } from "sonner";
 import Search from "./components/Search";
 import Explore from "./components/Explore";
 import ProtectedRoutes from "./components/protectedroutes";
+import { addNotification } from './redux/notificationslice';
+import { toast } from 'sonner';
+import Notification from "./components/Notification";
 
 const App = () => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((store) => store.auth);
+  const { socket } = useSelector((store) => store.socketio);
+
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -65,6 +70,16 @@ const App = () => {
     };
   }, [user, dispatch]);
 
+  useEffect(() => {
+    if (!socket) return;
+    const handleNotification = (notification) => {
+      dispatch(addNotification(notification));
+      toast(notification.message);
+    };
+    socket.on('notification', handleNotification);
+    return () => socket.off('notification', handleNotification);
+  }, [socket, dispatch]);
+
   return (
     <Routes>
      <Route path="/"element={<ProtectedRoutes><MainLayout /></ProtectedRoutes>} >
@@ -74,6 +89,7 @@ const App = () => {
         <Route path="/chat" element={<ProtectedRoutes><Chatpage /></ProtectedRoutes>}  />
          <Route path="/search"  element={<ProtectedRoutes><Search /></ProtectedRoutes>}  />
           <Route path="/explore"  element={<ProtectedRoutes><Explore /></ProtectedRoutes>}  />
+          <Route path="/notification"  element={<ProtectedRoutes><Notification /></ProtectedRoutes>}  />
       </Route>
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
