@@ -30,7 +30,7 @@ const App = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/v1/user/me", {
+        const res = await axios.get("https://instax-ln7e.onrender.com/api/v1/user/me", {
           withCredentials: true,
         });
 
@@ -51,7 +51,7 @@ const App = () => {
     let socket;
 
     if (user) {
-      socket = io("http://localhost:8000", {
+      socket = io("https://instax-ln7e.onrender.com", {
         query: {
           userId: user?._id,
         },

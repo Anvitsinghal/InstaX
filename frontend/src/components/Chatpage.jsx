@@ -18,7 +18,7 @@ const Chatpage = () => {
   const sendMessageHandler = async (receiverid) => {
     try {
       const res = await axios.post(
-        `http://localhost:8000/api/v1/message/send/${receiverid}`,
+        `https://instax-ln7e.onrender.com/api/v1/message/send/${receiverid}`,
         { textmessage },
         {
           headers: { 'Content-Type': 'application/json' },

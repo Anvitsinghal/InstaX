@@ -38,7 +38,7 @@ const Post = ({ post }) => {
   const deleteposthandler = async () => {
     try {
       const res = await axios.delete(
-        `http://localhost:8000/api/v1/post/delete/${post._id}`,
+        `https://instax-ln7e.onrender.com/api/v1/post/delete/${post._id}`,
         {
           withCredentials: true,
         }
@@ -62,7 +62,7 @@ const Post = ({ post }) => {
      
       const action = like ? "dislike" : "like";
       const res = await axios.get(
-        `http://localhost:8000/api/v1/post/${post._id}/${action}`,
+        `https://instax-ln7e.onrender.com/api/v1/post/${post._id}/${action}`,
         {
           withCredentials: true,
         }
@@ -86,7 +86,7 @@ const Post = ({ post }) => {
 const toggleFollow = async (id) => {
     try {
       const res = await axios.post(
-        `http://localhost:8000/api/v1/user/followorunfollow/${id}`,
+        `https://instax-ln7e.onrender.com/api/v1/user/followorunfollow/${id}`,
         {},
         { withCredentials: true }
       );
@@ -115,7 +115,7 @@ const toggleFollow = async (id) => {
 const toggleBookmark = async () => {
   try {
     const res = await axios.post(
-      `http://localhost:8000/api/v1/post/${post._id}/bookmark`,
+      `https://instax-ln7e.onrender.com/api/v1/post/${post._id}/bookmark`,
       {},
       { withCredentials: true }
     );
@@ -132,7 +132,7 @@ const toggleBookmark = async () => {
   const commenthandler=async()=>{
          try {
    const res = await axios.post(
-  `http://localhost:8000/api/v1/post/${post._id}/comment`,
+  `https://instax-ln7e.onrender.com/api/v1/post/${post._id}/comment`,
   { text },
   {
     headers: {

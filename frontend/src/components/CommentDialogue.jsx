@@ -21,7 +21,7 @@ const CommentDialogue = ({ open, setopen }) => {
   const commenthandler = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:8000/api/v1/post/${selectedposts?._id}/comment`,
+        `https://instax-ln7e.onrender.com/${selectedposts?._id}/comment`,
         { text },
         {
           headers: { 'Content-Type': 'application/json' },

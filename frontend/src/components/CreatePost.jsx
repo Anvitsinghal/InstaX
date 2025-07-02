@@ -46,7 +46,7 @@ const CreatePost = ({ open, setopen }) => {
     try {
       setloading(true);
       const res = await axios.post(
-        "http://localhost:8000/api/v1/post/addpost",
+        "https://instax-ln7e.onrender.com/api/v1/post/addpost",
         formdata,
         {
           headers: {

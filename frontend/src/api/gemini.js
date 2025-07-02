@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const run = async (prompt) => {
   try {
-    const res = await axios.post('http://localhost:8000/api/v1/user/gemini', {
+    const res = await axios.post('https://instax-ln7e.onrender.com/api/v1/user/gemini', {
       prompt,
     });
     return res.data.reply;

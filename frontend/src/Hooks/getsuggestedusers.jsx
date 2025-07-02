@@ -11,7 +11,7 @@ const getsuggestedusers = () => {
     useEffect(() => {
         const fetchAllPost = async () => {
             try {
-                const res = await axios.get('http://localhost:8000/api/v1/user/suggested', { withCredentials: true });
+                const res = await axios.get('https://instax-ln7e.onrender.com/api/v1/user/suggested', { withCredentials: true });
                 if (res.data.success) { 
                     console.log(res.data.users);
                     dispatch(setsuggesteduser(res.data.users));
