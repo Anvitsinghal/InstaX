@@ -41,3 +41,15 @@ const store = configureStore({
         }),
 });
 export default store;
+
+
+//persist is use to store the data in browser so that it remain in browser even when tab is close
+//without persist:-
+// const store = configureStore({
+//   reducer: {
+//     auth: authslice,
+//     post: postSlice,
+//     socketio: socketslice,
+//     chat: chatslice,
+//   },
+// });

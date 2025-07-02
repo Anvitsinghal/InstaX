@@ -1,30 +1,34 @@
-import React, { useEffect } from 'react';
-import Signup from './components/Signup';
-import Login from './components/Login';
-import { Routes, Route } from 'react-router-dom';
-import MainLayout from './components/MainLayout';
-import Home from './components/Home';
-import Profile from './components/Profile';
-import Editprofile from './components/Editprofile';
-import Chatpage from './components/Chatpage';
-import { io } from 'socket.io-client';
-import { useDispatch, useSelector } from 'react-redux';
-import { setonlineusers } from './redux/chatslice';
-import axios from 'axios';
-import { setAuthUser } from './redux/Authslice';
-import { setsocket } from './redux/socketslice';
+import React, { useEffect } from "react";
+import Signup from "./components/Signup";
+import Login from "./components/Login";
+import { Routes, Route } from "react-router-dom";
+import MainLayout from "./components/MainLayout";
+import Home from "./components/Home";
+import Profile from "./components/Profile";
+import Editprofile from "./components/Editprofile";
+import Chatpage from "./components/Chatpage";
+import { io } from "socket.io-client";
+import { useDispatch, useSelector } from "react-redux";
+import { setonlineusers } from "./redux/chatslice";
+import axios from "axios";
+import { setAuthUser } from "./redux/Authslice";
+import { setsocket } from "./redux/socketslice";
+import { Toaster } from "sonner";
+import Search from "./components/Search";
+import Explore from "./components/Explore";
+import ProtectedRoutes from "./components/protectedroutes";
 
 const App = () => {
   const dispatch = useDispatch();
-  
+
   const { user } = useSelector((store) => store.auth);
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axios.get('http://localhost:8000/api/v1/user/me', {
+        const res = await axios.get("http://localhost:8000/api/v1/user/me", {
           withCredentials: true,
         });
-  
+
         if (res.data.success) {
           dispatch(setAuthUser(res.data.user));
         } else {
@@ -34,23 +38,22 @@ const App = () => {
         dispatch(setAuthUser(null));
       }
     };
-  
+
     getUser();
   }, [dispatch]);
-  
+
   useEffect(() => {
     let socket;
 
     if (user) {
-      
-      socket = io('http://localhost:8000', {
+      socket = io("http://localhost:8000", {
         query: {
           userId: user?._id,
         },
-        transports: ['websocket'],
+        transports: ["websocket"],
       });
-dispatch(setsocket(socket)); 
-      socket.on('getOnlineUsers', (onlineusers) => {
+      dispatch(setsocket(socket));
+      socket.on("getOnlineUsers", (onlineusers) => {
         dispatch(setonlineusers(onlineusers));
       });
     }
@@ -64,11 +67,13 @@ dispatch(setsocket(socket));
 
   return (
     <Routes>
-      <Route path="/" element={<MainLayout />}>
+     <Route path="/"element={<ProtectedRoutes><MainLayout /></ProtectedRoutes>} >
         <Route index element={<Home />} />
-        <Route path="/account/edit" element={<Editprofile />} />
-        <Route path="profile/:id" element={<Profile />} />
-        <Route path="/chat" element={<Chatpage />} />
+        <Route path="/account/edit" element={<ProtectedRoutes><Editprofile /></ProtectedRoutes>}  />
+        <Route path="profile/:id"element={<ProtectedRoutes><Profile /></ProtectedRoutes>}  />
+        <Route path="/chat" element={<ProtectedRoutes><Chatpage /></ProtectedRoutes>}  />
+         <Route path="/search"  element={<ProtectedRoutes><Search /></ProtectedRoutes>}  />
+          <Route path="/explore"  element={<ProtectedRoutes><Explore /></ProtectedRoutes>}  />
       </Route>
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />

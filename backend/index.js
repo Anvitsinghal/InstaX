@@ -7,7 +7,6 @@ import userRoute from "./routes/user.route.js";
 import postRoute from "./routes/post.route.js";
 import messageRoute from "./routes/message.route.js";
 import { app ,server} from "./Socket/socket.js";
-
 dotenv.config({});
 
 //cors is cross org. resource sharing which allow frontend to access backend api as frontend origin port=5173 and backend is running on 8000
@@ -31,6 +30,7 @@ app.get('/', (req, res) => {
 app.use("/api/v1/user",userRoute);
 app.use("/api/v1/post",postRoute);
 app.use("/api/v1/message",messageRoute);
+
 
 const PORT = process.env.PORT||5000;
 server.listen(PORT, () => {

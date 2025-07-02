@@ -33,44 +33,45 @@ const Editprofile = () => {
     }
 
 
-    const editProfileHandler = async () => {
-        console.log(input);
-        const formData = new FormData();
-        formData.append("bio", input.bio);
-        formData.append("gender", input.gender);
-        if(input.profilePhoto){
-            formData.append("profilePhoto", input.profilePhoto);
-        }
-        try {
-            setLoading(true);
-            console.log("File:", input.profilePhoto);
-console.log("Is File:", input.profilePhoto instanceof File);
+const editProfileHandler = async () => {
+  const formData = new FormData();
+  formData.append("bio", input.bio || '');
+  formData.append("gender", input.gender || '');
+  
+  if (input.profilePhoto instanceof File) {
+    formData.append("profilePhoto", input.profilePhoto);
+  }
 
-            const res = await axios.post('http://localhost:8000/api/v1/user/profile/edit', formData,{
-                headers:{
-                    'Content-Type':'multipart/form-data'
-                },
-                withCredentials:true
-            });
-            if(res.data.success){
-                const updatedUserData = {
-                    ...user,
-                    bio:res.data.user?.bio,
-                    profilePicture:res.data.user?.profilePicture,
-                    gender:res.data.user.gender
-                };
-                dispatch(setAuthUser(updatedUserData));
-                navigate(`/profile/${user?._id}`);
-                toast.success(res.data.message);
-            }
+  try {
+    setLoading(true);
 
-        } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.messasge);
-        } finally{
-            setLoading(false);
-        }
+    const res = await axios.post('http://localhost:8000/api/v1/user/profile/edit', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      withCredentials: true
+    });
+
+    if (res.data.success) {
+      const updatedUserData = {
+        ...user,
+        bio: res.data.user?.bio,
+        profilePicture: res.data.user?.profilePicture,
+        gender: res.data.user.gender,
+      };
+      dispatch(setAuthUser(updatedUserData));
+      navigate(`/profile/${user?._id}`);
+      toast.success(res.data.message);
     }
+
+  } catch (error) {
+    console.error(error);
+    toast.error(error?.response?.data?.message || "Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+};
+
     return (
         <div className='flex max-w-2xl mx-auto pl-10'>
             <section className='flex flex-col gap-6 w-full my-8'>

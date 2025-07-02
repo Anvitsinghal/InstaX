@@ -1,3 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+/* Make sure toast shows above everything */
+[data-sonner-toast] {
+  z-index: 9999 !important;
+}
 
