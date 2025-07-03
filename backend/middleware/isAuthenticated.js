@@ -4,18 +4,22 @@ export const isAuthenticated = async (req, res, next) => {
   try {
     const token = req.cookies.token;
 
-    if (token) {
-      const decoded = await jwt.verify(token, process.env.SECRET_KEY);
-      if (decoded) {
-        req.id = decoded.userId;  // Attach user ID if valid
-      }
+    if (!token) {
+      return res.status(401).json({
+        message: "User not authenticated",
+        success: false,
+      });
     }
 
-    // Always call next, even if no token or invalid token
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    req.id = decoded.userId;
     next();
   } catch (err) {
-    console.log("Auth error:", err.message);
-    // Still proceed to next without blocking
-    next();
+    console.error("Auth Error:", err.message);
+    return res.status(401).json({
+      message: "Invalid or expired token",
+      success: false,
+    });
   }
 };
