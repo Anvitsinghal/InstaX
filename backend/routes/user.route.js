@@ -34,4 +34,17 @@ router.route('/gemini').post(async (req,res)=>{
   }
 })
 
+router.get("/news", async (req, res) => {
+  const { q } = req.query;
+
+  try {
+    const newsRes = await axios.get(
+      `https://newsapi.org/v2/everything?q=${q}&apiKey=${"253b5afd229e442fbd17a6b2af2a8525"}`
+    );
+    res.json(newsRes.data);
+  } catch (err) {
+    console.error("News API error:", err.message);
+    res.status(500).json({ message: "Failed to fetch news" });
+  }
+});
 export default router;

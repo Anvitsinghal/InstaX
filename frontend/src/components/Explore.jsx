@@ -10,8 +10,10 @@ const Explore = () => {
     const fetchArticles = async () => {
       try {
         const res = await axios.get(
-          `https://newsapi.org/v2/everything?q=${query}&apiKey=253b5afd229e442fbd17a6b2af2a8525`
-        );
+  `https://instax-ln7e.onrender.com/api/v1/user/news?q=${query}`,
+  { withCredentials: true }
+);
+
         if (res.data.status === 'ok') {
           setData(res.data.articles);
         }
